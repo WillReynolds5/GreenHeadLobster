@@ -7,10 +7,26 @@
     <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Open+Sans:600'>
 
     <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="login.js"> </script>
 
     <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.4.4.min.js"></script>
     <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.7/jquery.validate.min.js"></script>
     <script type="text/javascript" scr="js/jquery.validate.js"></script>
+
+
+<script src="https://www.gstatic.com/firebasejs/4.1.3/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAA_m9Td2a11KLNquMCEdI3g_oz3LdZBAU",
+    authDomain: "green-head-lobster.firebaseapp.com",
+    databaseURL: "https://green-head-lobster.firebaseio.com",
+    projectId: "green-head-lobster",
+    storageBucket: "green-head-lobster.appspot.com",
+    messagingSenderId: "298962817436"
+  };
+  firebase.initializeApp(config);
+</script>
 
   </head>
   <body>
@@ -18,9 +34,9 @@
       <div class="form">
         <form class="register-form">
           <input type="text" required="required" placeholder="full name"/>
-          <input type="email" required="required" placeholder="email address"/>
-          <input type="password" required="required" placeholder="password"/>
-          <button>create</button>
+          <input type="email" id="signUpEmail" required="required" placeholder="email address"/>
+          <input type="password" id="signUpPassword" required="required" placeholder="password"/>
+          <button onclick="signUp()">create</button>
           <p class="message">Already registered? <a href="#">Sign In</a></p>
         </form>
         <form class="login-form">
