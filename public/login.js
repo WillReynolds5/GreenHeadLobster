@@ -48,7 +48,6 @@
     if (firebaseUser) {
       console.log(firebaseUser);
       window.location.href = "";
-      document.location.href = "homepage.html";
     }
     else {
       console.log('not logged in');
