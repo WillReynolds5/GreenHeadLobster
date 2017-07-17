@@ -48,6 +48,7 @@
     if (firebaseUser) {
       console.log(firebaseUser);
       window.location.href = "";
+      document.location.href = "homepage.html";
     }
     else {
       console.log('not logged in');
@@ -55,6 +56,25 @@
 
   });
 
-
-
 }());
+
+// $(document).ready(function() {
+//     // Optimalisation: Store the references outside the event handler:
+//     var $window = $(window);
+//     var $pane = $('#pane1');
+//
+//     function checkWidth() {
+//         var windowsize = $window.width();
+//         if (windowsize > 440) {
+//             //if the window is greater than 440px wide then turn on jScrollPane..
+//             $pane.jScrollPane({
+//                scrollbarWidth:15,
+//                scrollbarMargin:52
+//             });
+//         }
+//     }
+//     // Execute on load
+//     checkWidth();
+//     // Bind event listener
+//     $(window).resize(checkWidth);
+// });
