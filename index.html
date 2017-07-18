@@ -31,35 +31,37 @@
 
     </script>
     <link rel="stylesheet" type="text/css" href="style.css">
-
+    <script src="login.js"> </script>
   </head>
   <body>
-    <div class="login-page">
-      <div class="form">
-        <form class="register-form">
+    <img src="greenheadlogo.png" alt="" class="logo">
+
+      <!-- <div class="form"> -->
+        <div class="register-form">
           <input type="text" id="name" required="required" placeholder="full name"/>
           <input type="email" id="signUpEmail" required="required" placeholder="email address"/>
           <input type="password" id="signUpPassword" required="required" placeholder="password"/>
-          <button id="signUpBtn">create</button>
+          <button id="signUpBtn" onclick="signUp()">create</button>
           <p class="message">Already registered? <a href="#">Sign In</a></p>
-        </form>
-        <form class="login-form">
+        </div>
+        <div class="login-form">
           <input type="email" id="loginEmail" required="required" placeholder="email"/>
           <input type="password" id="loginPassword" required="required" placeholder="password"/>
-          <button id="loginBtn">login</button>
+          <button id="loginBtn" onclick="login()">login</button>
           <p class="message">Not registered? <a href="#">Create an account</a></p>
-        </form>
-      </div>
-    </div>
+        </div>
+      <!-- </div> -->
+
 
     <script>
 
         $('.message a').click(function(){
-           $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
+           $('div').animate({height: "toggle", opacity: "toggle"}, "slow");
         });
+        // $('div').validate();
 
     </script>
-
+    <!-- <script src="login.js"> </script> -->
   </body>
-  <script src="login.js"> </script>
+
 </html>
