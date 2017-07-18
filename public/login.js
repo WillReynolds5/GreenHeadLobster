@@ -89,8 +89,8 @@ function signUp(){
     const signUp = firebase.auth().createUserWithEmailAndPassword(email, password);
 
     signUp.catch(e => {
-        alert(e.message)
-        console.log(e.message)
+        alert(e.message);
+        console.log(e.message);
     });
 
     firebase.auth().onAuthStateChanged(firebaseUser => {
@@ -108,5 +108,8 @@ function signUp(){
 
     const login = firebase.auth().signInWithEmailAndPassword(email, password);
 
-    login.catch(e => console.log(e.message));
+    login.catch(e => {
+        alert(e.message);
+        console.log(e.message);
+    });
 }

@@ -63,7 +63,7 @@ body .register-form {
   .logo{
     width: 70%;
     /*padding-bottom: 20%;*/
-    margin-bottom: 30%;
+    margin-bottom: 20%;
     max-width: 500px;
   }
   body .message {
@@ -85,7 +85,7 @@ body .register-form {
     font-size: 1.5vw;
   }
 }
-.container {
+/*.container {
   position: relative;
   z-index: 1;
   max-width: 300px;
@@ -117,7 +117,7 @@ body .register-form {
 }
 .container .info span .fa {
   color: #EF3B3A;
-}
+}*/
 
 body {
   /*background-color: rgb(201, 188, 161);*/
