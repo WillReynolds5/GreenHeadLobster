@@ -34,9 +34,11 @@
   <body>
       <img src="greenheadlogo.png" alt="" class="logo">
       <h2>select a location</h2>
-      <button class="locationBtn" onclick="toOrderPage()">Webs Cove</button>
-      <button class="locationBtn" onclick="toOrderPage()">Stonington</button>
-      <button class="locationBtn" onclick="toOrderPage()">Sunset</button>
+      <script>const result = {Webs: 'WebsCove', Stonington: 'Stonington', Sunset: 'Sunset'};</script>
+
+      <button class="locationBtn" onclick="toOrderPage(result.Webs)">Webs Cove</button>
+      <button class="locationBtn" onclick="toOrderPage(result.Stonington)">Stonington</button>
+      <button class="locationBtn" onclick="toOrderPage(result.Sunset)">Sunset</button>
       <!-- <script src="login.js"> </script> -->
 
   </body>
