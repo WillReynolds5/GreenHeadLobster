@@ -41,8 +41,33 @@
     </tr>
   </table>
 
+  <!-- ADMIN -->
+
+  <h1 id="adminHeader">Admin</h1>
+
+  <table id="adminTable">
+    <tr id="headerRow">
+      <td id="addBaitType"><h3>Bait type</h3></td>
+      <td id="addInventory"><h3>Inventory</h3></td>
+      <td id="addPrice"><h3>Price</h3></td>
+      <td id="listingHeader"><h3>Enter a quantity</h3></td>
+    </tr>
+  </table>
   <script>
-  var transition1 = localStorage.getItem("locationValue")
+  var dict = {};
+  var l = localStorage.getItem("locationValue");
+  console.log(l);
+
+
+  dict['key'] = l
+
+  console.log(dict.key);
+
+  </script>
+  <button id="adminBtn" class="AdminBtns" onclick="addNewListings()">ADD ROW</button>
+  <button id="adminBtn" class="AdminBtns" onclick="SaveAdminData(dict.key)">Save</button>
+  <script>
+  var transition1 = localStorage.getItem("locationValue");
   window.onload = updateHeader(transition1);
   function updateHeader(y){
     console.log(y);
@@ -57,6 +82,48 @@
     if (y == 'Stonington') {
       stonington()
     }
+
+    firebase.auth().onAuthStateChanged(function(user){
+      if (user){
+        if (user.email == 'wmreynol@colby.edu' || user.email == 'scott.schibli@reef-app.com'){
+          console.log('ADMIN');
+          document.getElementById('adminBtn').style.visibility = 'visible';
+
+          document.getElementById('adminHeader').style.visibility = 'visible';
+          if (y == 'Webbs Cove'){
+            adminWebbsCove()
+          }
+          if (y == 'Sunshine'){
+            adminSunshine()
+
+          }
+          if (y == 'Stonington') {
+            adminStonington()
+          }
+        }else {
+          document.getElementById('adminBtn').style.visibility = 'hidden';
+          document.getElementById('adminHeader').style.visibility = 'hidden';
+
+        }
+      }else {
+        console.log("no user found");
+
+      }
+
+    });
+
+
+  //   var user = firebase.auth();
+  //   console.log(user.currentUser.email)
+  //   if (user != null) {
+  //     user.providerData.forEach(function (profile) {
+  //       var email = user.email;
+  //       console.log("  Email: "+email);
+  //
+  //     });
+  //   } else {
+  //     console.log('no user found');
+  //   }
   }
   </script>
 
