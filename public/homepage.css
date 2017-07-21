@@ -71,3 +71,10 @@ body{
 
 
 }
+
+body .message a {
+  margin-top: 15%;
+  color: green;
+  text-decoration: none;
+  font-size: 40px;
+}

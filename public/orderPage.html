@@ -31,6 +31,33 @@
   <script type="text/javascript" src="orderPage.js"></script>
 <body>
 
+  <!-- ADMIN -->
+  <div id="admin">
+    <h1 id="adminHeader">Admin</h1>
+
+    <table id="adminTable">
+      <tr id="headerRow">
+        <td id="addBaitType"><h3>Bait type</h3></td>
+        <td id="addInventory"><h3>Inventory</h3></td>
+        <td id="addPrice"><h3>Price</h3></td>
+        <td id="listingHeader"><h3>Enter a quantity</h3></td>
+      </tr>
+    </table>
+    <script>
+    var dict = {};
+    var l = localStorage.getItem("locationValue");
+    console.log(l);
+    dict['key'] = l
+
+    console.log(dict.key);
+
+    </script>
+    <button id="addRow" class="AdminBtns" onclick="addNewListings()">ADD ROW</button>
+    <button id="saveBtn" class="AdminBtns" onclick="SaveAdminData(dict.key)">Save</button>
+
+  </div>
+
+  <!-- USER -->
   <h1 id="header">Todays Inv</h1>
   <table id="myTable">
     <tr>
@@ -40,40 +67,18 @@
       <td id="listingHeader"><h3>Enter a quantity</h3></td>
     </tr>
   </table>
+  <button  class="AdminBtns">Place Order</button>
 
-  <!-- ADMIN -->
-
-  <h1 id="adminHeader">Admin</h1>
-
-  <table id="adminTable">
-    <tr id="headerRow">
-      <td id="addBaitType"><h3>Bait type</h3></td>
-      <td id="addInventory"><h3>Inventory</h3></td>
-      <td id="addPrice"><h3>Price</h3></td>
-      <td id="listingHeader"><h3>Enter a quantity</h3></td>
-    </tr>
-  </table>
-  <script>
-  var dict = {};
-  var l = localStorage.getItem("locationValue");
-  console.log(l);
-
-
-  dict['key'] = l
-
-  console.log(dict.key);
-
-  </script>
-  <button id="adminBtn" class="AdminBtns" onclick="addNewListings()">ADD ROW</button>
-  <button id="adminBtn" class="AdminBtns" onclick="SaveAdminData(dict.key)">Save</button>
   <script>
   var transition1 = localStorage.getItem("locationValue");
-  window.onload = updateHeader(transition1);
+  document.onload = updateHeader(transition1);
   function updateHeader(y){
     console.log(y);
+    document.getElementById('admin').style.display = 'none';
     document.getElementById("header").innerHTML = y;
     if (y == 'Webbs Cove'){
       webbsCove()
+
     }
     if (y == 'Sunshine'){
       sunshine()
@@ -83,13 +88,20 @@
       stonington()
     }
 
-    firebase.auth().onAuthStateChanged(function(user){
-      if (user){
-        if (user.email == 'wmreynol@colby.edu' || user.email == 'scott.schibli@reef-app.com'){
-          console.log('ADMIN');
-          document.getElementById('adminBtn').style.visibility = 'visible';
 
-          document.getElementById('adminHeader').style.visibility = 'visible';
+    firebase.auth().onAuthStateChanged(function(user){
+      console.log('runniong');
+      if (user){
+        if (user.email == 'wmreynol@colby.edu' || user.email == 'scott.schibli@reef-app.com' || user.email == 'hugh@greenheadlobster.com'){
+          console.log(user.email);
+          console.log('ADMIN');
+          document.getElementById('admin').style.display = 'block';
+          // document.getElementById('admin')style.display = "none";
+          // document.getElementById('admin').style.display = '';
+          // document.getElementById('adminHeader').disabled = true;
+          // document.getElementById('adminTable').disabled = true;
+          // document.getElementById('addRow').disabled = true;
+          // document.getElementById('saveBtn').disabled = true;
           if (y == 'Webbs Cove'){
             adminWebbsCove()
           }
@@ -100,30 +112,23 @@
           if (y == 'Stonington') {
             adminStonington()
           }
+
+
         }else {
-          document.getElementById('adminBtn').style.visibility = 'hidden';
-          document.getElementById('adminHeader').style.visibility = 'hidden';
+          // document.getElementById('admin').style.visability = 'visible';
+          console.log('NOT A FUCKING ADMIN FOR FUCKS SALEW YPI FAG');
+          // document.getElementById('adminHeader').disabled = false;
+          // document.getElementById('adminTable').disabled = false;
+          // document.getElementById('addRow').disabled = false;
+          // document.getElementById('saveBtn').disabled = false;
 
         }
       }else {
         console.log("no user found");
-
+        document.location.href = "index.html";
       }
 
     });
-
-
-  //   var user = firebase.auth();
-  //   console.log(user.currentUser.email)
-  //   if (user != null) {
-  //     user.providerData.forEach(function (profile) {
-  //       var email = user.email;
-  //       console.log("  Email: "+email);
-  //
-  //     });
-  //   } else {
-  //     console.log('no user found');
-  //   }
   }
   </script>
 
