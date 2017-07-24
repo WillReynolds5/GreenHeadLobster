@@ -39,7 +39,33 @@
       <button class="locationBtn" onclick="toOrderPage(result.Webbs)">Webbs Cove</button>
       <button class="locationBtn" onclick="toOrderPage(result.Stonington)">Stonington</button>
       <button class="locationBtn" onclick="toOrderPage(result.Sunshine)">Sunshine</button>
-      <!-- <script src="login.js"> </script> -->
+      <p class="message"><a href="#" onclick="logOut()">Sign Out</a></p>
+      <script>
+
+      function logOut(){
+
+          firebase.auth().signOut().then(function(){
+            document.location.href = "index.html";
+          }).catch(function(error){
+            alert(error);
+          });
+      }
+      document.onload = checklogIn();
+      function checklogIn(){
+        firebase.auth().onAuthStateChanged(function(user){
+          console.log('runniong');
+          if (user){
+
+            
+          }else {
+            document.location.href = "index.html";
+          }
+
+        });
+      }
+
+
+      </script>
 
   </body>
 </html>
