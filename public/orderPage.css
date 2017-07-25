@@ -33,7 +33,7 @@ tr {
   margin: 0px;
 }
 
-tr:nth-child(even){
+tr:nth-child(odd){
   background-color: rgba(139,0,0,.2);
   /*opacity: .2;*/
 
@@ -91,7 +91,13 @@ input {
       font-size: 3vw;
   }
   input{
-    font-size: 2.5vw;
+    font-size: 3vw;
+  }
+  .cptHeader{
+    font-family: "Avenir", Arial;
+    font-weight: bold;
+    font-size: 5vw;
+    margin-bottom: 2%;
   }
 }
 /*COMP*/
@@ -114,6 +120,12 @@ input {
   }
   input{
     font-size: 1.2vw;
+  }
+  .cptHeader{
+    font-family: "Avenir", Arial;
+    font-weight: bold;
+    font-size: 3vw;
+    margin-bottom: 3%;
   }
 }
 
@@ -168,4 +180,9 @@ input {
   border-width: 3px;
   border-color: darkred;
 
+}
+
+.tab{
+
+  margin-bottom: 0%;
 }

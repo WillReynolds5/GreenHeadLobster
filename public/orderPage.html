@@ -33,8 +33,11 @@
 
   <!-- ADMIN -->
   <div id="admin">
-    <h1 id="adminHeader">Admin</h1>
-
+    <h1 id="adminHeader"> GreenHead Admin</h1>
+    <div id="confirmButton">
+    <div id="orders"></div>
+    </div>
+    <h1>Update Listings</h1>
     <table id="adminTable">
       <tr id="headerRow">
         <td id="addBaitType"><h3>Bait type</h3></td>
@@ -67,15 +70,31 @@
       <td id="listingHeader"><h3>Enter a quantity</h3></td>
     </tr>
   </table>
-  <button  class="AdminBtns">Place Order</button>
+  <button  class="AdminBtns" onclick="placeOrder()">Place Order</button>
 
   <script>
   var transition1 = localStorage.getItem("locationValue");
   document.onload = updateHeader(transition1);
   function updateHeader(y){
+
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0!
+    var yyyy = today.getFullYear();
+
+    if(dd<10) {
+        dd = '0'+dd
+    }
+
+    if(mm<10) {
+        mm = '0'+mm
+    }
+
+    today = mm + '/' + dd;
+
     console.log(y);
     document.getElementById('admin').style.display = 'none';
-    document.getElementById("header").innerHTML = y;
+    document.getElementById("header").innerHTML = y + " - " + today;
     if (y == 'Webbs Cove'){
       webbsCove()
 
@@ -96,6 +115,7 @@
           console.log(user.email);
           console.log('ADMIN');
           document.getElementById('admin').style.display = 'block';
+          loadOrders();
           // document.getElementById('admin')style.display = "none";
           // document.getElementById('admin').style.display = '';
           // document.getElementById('adminHeader').disabled = true;
