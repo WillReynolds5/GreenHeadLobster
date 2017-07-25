@@ -300,12 +300,17 @@ function loadOrders(){
     if (snapshot.numChildren() > 0){
     document.getElementById('orderHeader').style.display = 'block';
     snapshot.forEach(function(child) {
-
+      var cptName = child.key;
       var tab = document.createElement('table');
       var header = tab.createTHead();
       var confirmBtn = document.createElement('button');
       // confirmBtn.type = 'button';
       confirmBtn.setAttribute('class', 'AdminConfirmBtns');
+      // confirmBtn.setAttribute('onClick','reduceQuantity(cptNames.name)');
+      // confirmBtn.onClick = 'reduceQuantity(cptNames.name)';
+      confirmBtn.addEventListener('click', function(){
+        firebaseLoad(cptName);
+      });
       header.innerHTML = child.key;
       header.setAttribute('class', 'cptHeader');
       tab.className = "tab";
@@ -321,11 +326,12 @@ function loadOrders(){
       // confirmBtn.setAttribute('id', 'adminBtn');
       // hcell4.innerHTML = "<h3>delete</h3>";
       var orderDict = {};
+      var cptName = child.key;
       orderDict = child.val();
       var string = JSON.stringify(orderDict);
       var cptsOrder = JSON.parse(string);
       // console.log(orderDict);
-      var cptName = child.key;
+
       tab.setAttribute('id', cptName);
       // console.log(cptName);
       // console.log(cptsOrder);
@@ -342,7 +348,8 @@ function loadOrders(){
         var cell3 = row.insertCell(2);
         // var cell4 = row.insertCell(3);
         cell1.innerHTML = x;
-        cell2.innerHTML = "<input type='text' value='"+listing.quantity+"'>";
+        cell1.setAttribute('class', 'orderBaitType');
+        cell2.innerHTML = "<input class='orderQuantity' type='text' value='"+listing.quantity+"'>";
         cell3.innerHTML = listing.Price;
         // cell4.innerHTML = "<button id='dBtn' class='deleteBtn' type=button' onClick='cptOrderDeleteFunction(this)'>Delete</button>";
         tables.appendChild(tab);
@@ -374,4 +381,129 @@ function formatAMPM(date) {
   minutes = minutes < 10 ? '0'+minutes : minutes;
   var strTime = hours + ':' + minutes + ' ' + ampm;
   return strTime;
+}
+
+
+// function reduceQuantity(x){
+//   var loc = localStorage.getItem("locationValue");
+//   console.log(x);
+//   // var orderTable = document.getElementById(x);
+//   // // console.log(orderTable);
+//   // var updateDict = {};
+//   // var orderDict = {};
+//   //
+//   // // console.log(adminTable.rows);
+//   // for (var i = 0; i < orderTable.rows.length - 1; i++) {
+//   //     var rowDict = {};
+//   //     var bait = document.getElementsByClassName('orderBaitType')[i].innerHTML;
+//   //     var inven = document.getElementsByClassName('orderQuantity')[i].value;
+//   //     // var price = document.getElementsByClassName('price')[i].value;
+//   //     // console.log(bait);
+//   //     // console.log(inven);
+//   //     rowDict['Quantity'] = inven;
+//   //     // rowDict['Price'] = price;
+//   //     orderDict[bait] = rowDict;
+//   // }
+//   // // console.log("     ORDERS     ");
+//   // // console.log(orderDict);
+//   //
+//   // // console.log("     INVEN     ");
+//   // var Inven = firebase.database().ref('Ports').child(loc).on('value', function(snapshot) {
+//   //   // snapshot.forEach(function(childSnapshot){
+//   //   var string = JSON.stringify(snapshot);
+//   //   var Dict = JSON.parse(string);
+//   //   // console.log(Dict);
+//   //   for (var key in Dict){
+//   //     // console.log(orderDict[key]);
+//   //     var listing = Dict[key];
+//   //     // console.log(listing);
+//   //     // console.log(key);
+//   //     var price = listing.Price;
+//   //     var inv = listing.Inventory;
+//   //
+//   //     if (key in orderDict){
+//   //       // console.log("Order match!");
+//   //       // console.log(key);
+//   //       listing['Inventory'] = (listing['Inventory'] - orderDict[key].Quantity);
+//   //       // console.log(listing['Inventory']);
+//   //       // console.log("how much is left");
+//   //       // console.log(listing['Inventory']);
+//   //
+//   //       updateDict[key] = listing;
+//   //       // console.log(orderDict[key]);
+//   //     }else {
+//   //       updateDict[key] = listing;
+//   //     }
+//   //
+//   //   }
+//   //   // console.log(updateDict);
+//   //
+//   // });
+//   // // console.log(updateDict);
+//       var load = firebaseLoad(x);
+//       load.then(function(updateDict){
+//         try {
+//           console.log(updateDict);
+//           alert('Inventory updated');
+//           const update = firebase.database().ref('Ports').child(loc).set(updateDict);
+//           location.reload();
+//         } catch (err) {
+//           console.log(err);
+//           alert('You cannot insert empty values or . , # , $ , / , [ , or ] in the textbox');
+//         }
+//
+//       });
+//
+//
+//
+// }
+
+function firebaseLoad(x){
+  var loc = localStorage.getItem("locationValue");
+  // console.log(x);
+  var orderTable = document.getElementById(x);
+  var updateDict = {};
+  var orderDict = {};
+  var thd = document.getElementById("x").headers;
+  console.log(thd.value);
+  for (var i = 0; i < orderTable.rows.length - 1; i++) {
+      var rowDict = {};
+      var bait = document.getElementsByClassName('orderBaitType')[i].innerHTML;
+      var inven = document.getElementsByClassName('orderQuantity')[i].value;
+      rowDict['Quantity'] = inven;
+      orderDict[bait] = rowDict;
+  }
+
+  var Inven = firebase.database().ref('Ports').child(loc).once('value').then(function(snapshot) {
+    var string = JSON.stringify(snapshot);
+    var Dict = JSON.parse(string);
+    for (var key in Dict){
+      var listing = Dict[key];
+      var price = listing.Price;
+      var inv = listing.Inventory;
+
+      if (key in orderDict){
+
+        listing['Inventory'] = (listing['Inventory'] - orderDict[key].Quantity);
+        updateDict[key] = listing;
+
+      }else {
+        updateDict[key] = listing;
+      }
+
+    }
+    return updateDict;
+  }).then(function(){
+    try {
+      console.log(updateDict);
+      alert('Inventory updated');
+      const update = firebase.database().ref('Ports').child(loc).set(updateDict);
+      // ordertable.parentNode.removeChild(ordertable);
+      location.reload();
+    } catch (err) {
+      console.log(err);
+      alert('You cannot insert empty values or . , # , $ , / , [ , or ] in the textbox');
+    }
+
+  });
 }
