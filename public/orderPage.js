@@ -252,17 +252,30 @@ function placeOrder(){
       }
 
   }
+  var today = new Date();
+  var time = formatAMPM(today);
+  var dd = today.getDate();
+  var mm = today.getMonth()+1; //January is 0!
+  var yyyy = today.getTime();
+
+  if(dd<10) {
+      dd = '0'+dd
+  }
+  if(mm<10) {
+      mm = '0'+mm
+  }
+  today = mm + '-' + dd + '-' + time;
+
   // console.log(updateDict);
   firebase.auth().onAuthStateChanged(function(user){
       name = user.uid;
       console.log(name);
       firebase.database().ref('Users').child(name).once('value').then(function(snapshot){
-
           try {
             console.log(ports);
-            console.log(snapshot.val());
+            var nameTime = snapshot.val();
             console.log(updateDict);
-            const update = firebase.database().ref('Orders').child(ports).child(snapshot.val()).set(updateDict);
+            const update = firebase.database().ref('Orders').child(ports).child(nameTime  + ": " + today).set(updateDict);
             alert("Order Placed!");
             location.reload();
           } catch (err) {
@@ -283,19 +296,21 @@ function loadOrders(){
 
   firebase.database().ref('Orders').child(location).on('value', function(snapshot){
 
-
+    console.log(snapshot.numChildren());
+    if (snapshot.numChildren() > 0){
+    document.getElementById('orderHeader').style.display = 'block';
     snapshot.forEach(function(child) {
 
       var tab = document.createElement('table');
-
       var header = tab.createTHead();
       var confirmBtn = document.createElement('button');
       // confirmBtn.type = 'button';
-      confirmBtn.setAttribute('class', 'AdminBtns');
+      confirmBtn.setAttribute('class', 'AdminConfirmBtns');
       header.innerHTML = child.key;
       header.setAttribute('class', 'cptHeader');
       tab.className = "tab";
       var hRow = tab.insertRow(0);
+      hRow.setAttribute('class','orderRow');
       var hcell1 = hRow.insertCell(0);
       var hcell2 = hRow.insertCell(1);
       var hcell3 = hRow.insertCell(2);
@@ -304,9 +319,7 @@ function loadOrders(){
       hcell2.innerHTML = "<h3 id='listingHeader'>Quantity</h3>";
       hcell3.innerHTML = "<h3 id='listingHeader'>Price</h3>";
       // confirmBtn.setAttribute('id', 'adminBtn');
-
       // hcell4.innerHTML = "<h3>delete</h3>";
-
       var orderDict = {};
       orderDict = child.val();
       var string = JSON.stringify(orderDict);
@@ -314,17 +327,16 @@ function loadOrders(){
       // console.log(orderDict);
       var cptName = child.key;
       tab.setAttribute('id', cptName);
-      console.log(cptName);
+      // console.log(cptName);
       // console.log(cptsOrder);
 
       for (var x in cptsOrder){
-        console.log(x);
+        // console.log(x);
         var listing = cptsOrder[x];
-        console.log(listing.Price);
-        console.log(listing.quantity);
-
-
+        // console.log(listing.Price);
+        // console.log(listing.quantity);
         var row = tab.insertRow(1);
+        row.setAttribute('class','orderRow');
         var cell1 = row.insertCell(0);
         var cell2 = row.insertCell(1);
         var cell3 = row.insertCell(2);
@@ -333,23 +345,16 @@ function loadOrders(){
         cell2.innerHTML = "<input type='text' value='"+listing.quantity+"'>";
         cell3.innerHTML = listing.Price;
         // cell4.innerHTML = "<button id='dBtn' class='deleteBtn' type=button' onClick='cptOrderDeleteFunction(this)'>Delete</button>";
-
-
         tables.appendChild(tab);
-
-        // document.getElementById('confirmButton').appendChild(confirmBtn);
-
-
-
       }
       var t = document.createTextNode('Confirm Order');
       confirmBtn.appendChild(t);
       tables.appendChild(confirmBtn);
-
     });
-
+  } else {
+    document.getElementById('orderHeader').style.display = 'none';
+  }
   });
-
 }
 
 function cptOrderDeleteFunction(x) {
@@ -358,4 +363,15 @@ function cptOrderDeleteFunction(x) {
     table.deleteRow(x.closest('tr').rowIndex);
     console.log(x.closest('tr'));
 
+}
+
+function formatAMPM(date) {
+  var hours = date.getHours();
+  var minutes = date.getMinutes();
+  var ampm = hours >= 12 ? 'pm' : 'am';
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+  minutes = minutes < 10 ? '0'+minutes : minutes;
+  var strTime = hours + ':' + minutes + ' ' + ampm;
+  return strTime;
 }

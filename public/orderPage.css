@@ -1,13 +1,35 @@
 body{
   background-color: #f3f3f1;
   margin: 0px;
-  padding-top: 5%;
+  padding-top: 0%;
   text-align: center;
-  padding-left: 2.5%;
-  padding-right: 2.5%;
+  /*padding-left: 2.5%;
+  padding-right: 2.5%;*/
 
 }
+#body2{
+  margin-left: 2.5%;
+  margin-right: 2.5%;
+}
 
+.navBar {
+  width: 100%;
+  height: 100px;
+  background-color: rgba(0,100,0,.2);
+  margin: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+  padding-left: 3%;
+
+
+}
+.backBtn{
+  height: 80%;
+  float: left;
+  margin-top: 1.2%
+
+
+}
 
 h1{
   font-family: "Avenir", Arial;
@@ -36,6 +58,11 @@ tr {
 tr:nth-child(odd){
   background-color: rgba(139,0,0,.2);
   /*opacity: .2;*/
+
+}
+
+.orderRow:nth-child(odd){
+  background-color: rgba(0,100,0,.2);
 
 }
 
@@ -98,6 +125,10 @@ input {
     font-weight: bold;
     font-size: 5vw;
     margin-bottom: 2%;
+
+  }
+  .navBar {
+    height: 150px;
   }
 }
 /*COMP*/
@@ -153,6 +184,33 @@ input {
   border-style: solid;
   border-width: 3px;
   border-color: darkred;
+
+}
+
+.AdminConfirmBtns{
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 30px;
+  margin-top: 50px;
+
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background: white;
+  width: 85%;
+  height: 90px;
+  border: 0;
+  padding: 15px;
+  color: black;
+  font-size: 25px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+  max-width: 400px;
+  border-radius: 10px;
+  border-style: solid;
+  border-width: 3px;
+  border-color: darkgreen;
 
 }
 

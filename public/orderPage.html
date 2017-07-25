@@ -29,49 +29,54 @@
   </script>
   <link rel="stylesheet" type="text/css" href="orderPage.css">
   <script type="text/javascript" src="orderPage.js"></script>
-<body>
 
+<body>
+  <div class="navBar">
+    <img class="backBtn" src="backspace.png">
+  </div>
+  <div id="body2">
   <!-- ADMIN -->
-  <div id="admin">
-    <h1 id="adminHeader"> GreenHead Admin</h1>
-    <div id="confirmButton">
-    <div id="orders"></div>
+    <div id="admin">
+      <h1 id="adminHeader"></h1>
+      <h1 id="orderHeader">Orders</h1>
+      <div id="confirmButton">
+      <div id="orders"></div>
+      </div>
+      <h1>Update Listings</h1>
+      <table id="adminTable">
+        <tr id="headerRow">
+          <td id="addBaitType"><h3>Bait type</h3></td>
+          <td id="addInventory"><h3>Inventory</h3></td>
+          <td id="addPrice"><h3>Price</h3></td>
+          <td id="listingHeader"><h3>Enter a quantity</h3></td>
+        </tr>
+      </table>
+      <script>
+      var dict = {};
+      var l = localStorage.getItem("locationValue");
+      console.log(l);
+      dict['key'] = l
+
+      console.log(dict.key);
+
+      </script>
+      <button id="addRow" class="AdminBtns" onclick="addNewListings()">ADD ROW</button>
+      <button id="saveBtn" class="AdminBtns" onclick="SaveAdminData(dict.key)">Save</button>
+
     </div>
-    <h1>Update Listings</h1>
-    <table id="adminTable">
-      <tr id="headerRow">
-        <td id="addBaitType"><h3>Bait type</h3></td>
-        <td id="addInventory"><h3>Inventory</h3></td>
-        <td id="addPrice"><h3>Price</h3></td>
+
+    <!-- USER -->
+    <h1 id="header">Todays Inv</h1>
+    <table id="myTable">
+      <tr>
+        <td id="listingHeader"><h3>Bait type</h3></td>
+        <td id="listingHeader"><h3>Inventory</h3></td>
+        <td id="listingHeader"><h3>Price</h3></td>
         <td id="listingHeader"><h3>Enter a quantity</h3></td>
       </tr>
     </table>
-    <script>
-    var dict = {};
-    var l = localStorage.getItem("locationValue");
-    console.log(l);
-    dict['key'] = l
-
-    console.log(dict.key);
-
-    </script>
-    <button id="addRow" class="AdminBtns" onclick="addNewListings()">ADD ROW</button>
-    <button id="saveBtn" class="AdminBtns" onclick="SaveAdminData(dict.key)">Save</button>
-
-  </div>
-
-  <!-- USER -->
-  <h1 id="header">Todays Inv</h1>
-  <table id="myTable">
-    <tr>
-      <td id="listingHeader"><h3>Bait type</h3></td>
-      <td id="listingHeader"><h3>Inventory</h3></td>
-      <td id="listingHeader"><h3>Price</h3></td>
-      <td id="listingHeader"><h3>Enter a quantity</h3></td>
-    </tr>
-  </table>
-  <button  class="AdminBtns" onclick="placeOrder()">Place Order</button>
-
+    <button  class="AdminBtns" onclick="placeOrder()">Place Order</button>
+</div>
   <script>
   var transition1 = localStorage.getItem("locationValue");
   document.onload = updateHeader(transition1);
@@ -109,45 +114,39 @@
 
 
     firebase.auth().onAuthStateChanged(function(user){
+      var admins = ['wmreynol@colby.edu', 'scott.schibli@reef-app.com', 'hugh@greenheadlobster.com']
       console.log('runniong');
       if (user){
-        if (user.email == 'wmreynol@colby.edu' || user.email == 'scott.schibli@reef-app.com' || user.email == 'hugh@greenheadlobster.com'){
-          console.log(user.email);
-          console.log('ADMIN');
-          document.getElementById('admin').style.display = 'block';
-          loadOrders();
-          // document.getElementById('admin')style.display = "none";
-          // document.getElementById('admin').style.display = '';
-          // document.getElementById('adminHeader').disabled = true;
-          // document.getElementById('adminTable').disabled = true;
-          // document.getElementById('addRow').disabled = true;
-          // document.getElementById('saveBtn').disabled = true;
-          if (y == 'Webbs Cove'){
-            adminWebbsCove()
-          }
-          if (y == 'Sunshine'){
-            adminSunshine()
+        for (var i = 0; i < admins.length; i++){
+          if (user.email == admins[i]){
+            console.log(user.email);
+            console.log('ADMIN');
+            document.getElementById('admin').style.display = 'block';
+            document.getElementById('adminHeader').innerHTML = y + " Admin" + " - " + today;
+            loadOrders();
+
+            if (y == 'Webbs Cove'){
+              adminWebbsCove()
+            }
+            if (y == 'Sunshine'){
+              adminSunshine()
+            }
+            if (y == 'Stonington') {
+              adminStonington()
+            }
+
+
+          }else {
+
+            console.log('NOT A FUCKING ADMIN FOR FUCKS SALEW YPI FAG');
 
           }
-          if (y == 'Stonington') {
-            adminStonington()
-          }
-
-
-        }else {
-          // document.getElementById('admin').style.visability = 'visible';
-          console.log('NOT A FUCKING ADMIN FOR FUCKS SALEW YPI FAG');
-          // document.getElementById('adminHeader').disabled = false;
-          // document.getElementById('adminTable').disabled = false;
-          // document.getElementById('addRow').disabled = false;
-          // document.getElementById('saveBtn').disabled = false;
-
         }
+
       }else {
         console.log("no user found");
         document.location.href = "index.html";
       }
-
     });
   }
   </script>
